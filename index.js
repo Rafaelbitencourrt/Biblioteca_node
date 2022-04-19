@@ -1,11 +1,19 @@
 import chalk from "chalk";
-const express = require("express");
-console.log(chalk.blue("Imprimi"));
+import fs from "node:fs";
 
-const paragrafo = "Texto em função";
-
-function texto(string) {
-  return string;
+function trataErro(erro) {
+  throw new Error(chalk.red(erro.code));
 }
 
-console.log(texto(paragrafo));
+function pegaArquivo(caminhoDoArquivo) {
+  const encoding = "utf-8";
+  fs.readFile(caminhoDoArquivo, encoding, (erro, data) => {
+    if (erro) {
+      trataErro(erro);
+    } else {
+      console.log(chalk.green(data));
+    }
+  });
+}
+
+pegaArquivo("./arquivos/texto1.md");
